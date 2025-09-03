@@ -1,0 +1,232 @@
+/* Container & Layout */
+.form-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.75rem;
+  border: 2px solid #e9ecef;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.required {
+  color: #e74c3c;
+}
+
+/* Buttons */
+.btn-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: #667eea;
+  color: #fff;
+}
+
+.btn:hover {
+  background: #5a67d8;
+}
+
+.btn-reset {
+  background: #6c757d;
+  color: #fff;
+}
+
+.btn-reset:hover {
+  background: #5a6268;
+}
+
+/* Alerts */
+.alert {
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  display: none;
+}
+
+/* ประวัติแพ้ยา - ปรับปรุงให้เรียบง่าย */
+.allergy-section {
+  grid-column: 1 / -1;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  background: #f9f9f9;
+  margin-top: 15px;
+}
+
+.allergy-section h3 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+}
+
+/* Dropdown แบบง่าย */
+.dropdown {
+  position: relative;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.dropbtn {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 10;
+  margin-top: 2px;
+  padding: 5px;
+}
+
+.dropdown-content label {
+  display: block;
+  padding: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.dropdown-content label:hover {
+  background: #f0f0f0;
+}
+
+/* Custom allergy input */
+.custom-allergy {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 10px;
+  display: none;
+}
+
+/* No allergy checkbox */
+.no-allergy {
+  margin-top: 15px;
+  padding: 10px;
+  background: #e8f5e8;
+  border-radius: 5px;
+}
+
+.no-allergy input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.no-allergy label {
+  margin: 0;
+  font-weight: normal;
+  color: #155724;
+}
+
+/* Selected allergies */
+.selected-allergies {
+  margin-top: 15px;
+}
+
+.allergy-tag {
+  display: inline-block;
+  background: #667eea;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 15px;
+  margin: 2px;
+  font-size: 12px;
+}
+
+.no-allergy-display {
+  background: #28a745;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+}
+
+/* Error messages */
+.error-message {
+  margin-top: 5px;
+  font-size: 0.85rem;
+  min-height: 15px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-group {
+    flex-direction: column;
+  }
+
+  .allergy-section {
+    padding: 15px;
+  }
+}
