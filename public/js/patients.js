@@ -41,6 +41,44 @@ function checkPhone() {
   return true;
 }
 
+// ตรวจสอบน้ำหนัก
+function checkWeight() {
+  const weight = document.getElementById("weight");
+  const value = parseFloat(weight.value);
+
+  if (weight.value === "") {
+    clearError("weight");
+    return true;
+  }
+
+  if (value < 1 || value > 300) {
+    showError("weight", "น้ำหนักต้องอยู่ระหว่าง 1-300 กิโลกรัม");
+    return false;
+  }
+
+  clearError("weight");
+  return true;
+}
+
+// ตรวจสอบส่วนสูง
+function checkHeight() {
+  const height = document.getElementById("height");
+  const value = parseFloat(height.value);
+
+  if (height.value === "") {
+    clearError("height");
+    return true;
+  }
+
+  if (value < 50 || value > 250) {
+    showError("height", "ส่วนสูงต้องอยู่ระหว่าง 50-250 เซนติเมตร");
+    return false;
+  }
+
+  clearError("height");
+  return true;
+}
+
 // ตรวจสอบเลือกเพศ
 function checkGender() {
   const genderRadios = document.querySelectorAll('input[name="gender"]');
@@ -226,7 +264,7 @@ function setupAllergySystem() {
     }
   });
 
-  // Individual medicine checkboxes
+  // checkboxes ยา
   document
     .querySelectorAll('.medicine-option input[type="checkbox"]')
     .forEach((checkbox) => {
@@ -241,7 +279,7 @@ function setupAllergySystem() {
       });
     });
 
-  // Add custom medicine button
+  // button เพิ่มยา
   document.querySelector(".add-custom-btn").addEventListener("click", () => {
     const customName =
       document.getElementById("customMedicineName").textContent;
@@ -314,6 +352,8 @@ function resetAllergySection() {
 window.onload = function () {
   // ตรวจสอบเบอร์โทรและเพศ
   document.getElementById("phone").addEventListener("input", checkPhone);
+  document.getElementById("weight").addEventListener("input", checkWeight);
+  document.getElementById("height").addEventListener("input", checkHeight);
   document.querySelectorAll('input[name="gender"]').forEach((radio) => {
     radio.addEventListener("change", checkGender);
   });
@@ -328,6 +368,8 @@ window.onload = function () {
       let allValid = true;
 
       if (!checkPhone()) allValid = false;
+      if (!checkWeight()) allValid = false;
+      if (!checkHeight()) allValid = false;
       if (!checkGender()) allValid = false;
 
       // ดึงข้อมูลจากฟอร์ม
@@ -337,6 +379,8 @@ window.onload = function () {
       const lastName = document.getElementById("last_name").value.trim();
       const gender = getSelectedGender();
       const phone = document.getElementById("phone").value.trim();
+      const weight = document.getElementById("weight").value || null;
+      const height = document.getElementById("height").value || null;
 
       if (!employeeId) {
         showAlert("กรุณากรอกรหัสพนักงาน", "error");
@@ -372,6 +416,8 @@ window.onload = function () {
           last_name: lastName,
           gender: gender,
           phone: phone,
+          weight: weight ? parseFloat(weight) : null,
+          height: height ? parseFloat(height) : null,
           allergies: getAllergyData(),
         };
 

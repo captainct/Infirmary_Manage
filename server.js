@@ -138,6 +138,8 @@ app.post("/api/patients", async (req, res) => {
       last_name,
       gender,
       phone,
+      weight,
+      height,
       allergies,
     } = req.body;
 
@@ -184,12 +186,36 @@ app.post("/api/patients", async (req, res) => {
       });
     }
 
+    if (
+      weight &&
+      (isNaN(parseFloat(weight)) ||
+        parseFloat(weight) < 1 ||
+        parseFloat(weight) > 300)
+    ) {
+      return res.json({
+        success: false,
+        error: "น้ำหนักต้องอยู่ระหว่าง 1-300 กิโลกรัม",
+      });
+    }
+
+    if (
+      height &&
+      (isNaN(parseFloat(height)) ||
+        parseFloat(height) < 50 ||
+        parseFloat(height) > 250)
+    ) {
+      return res.json({
+        success: false,
+        error: "ส่วนสูงต้องอยู่ระหว่าง 50-250 เซนติเมตร",
+      });
+    }
+
     // SQL Query
     const sql = `
       INSERT INTO patients (
         employee_id, department, first_name, last_name, gender, phone, 
-        allergies, visit_date, created_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE(), NOW())
+        weight, height, allergies, visit_date, created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURDATE(), NOW())
     `;
 
     // ข้อมูลที่จะบันทึก
@@ -200,6 +226,8 @@ app.post("/api/patients", async (req, res) => {
       last_name.trim(),
       gender.trim(),
       phone.trim(),
+      weight ? parseFloat(weight) : null,
+      height ? parseFloat(height) : null,
       allergies || null,
     ];
 
@@ -226,6 +254,8 @@ app.post("/api/patients", async (req, res) => {
         ชื่อ: `${first_name.trim()} ${last_name.trim()}`,
         เพศ: gender === "male" ? "ชาย" : "หญิง",
         เบอร์โทร: phone.trim(),
+        น้ำหนัก: weight ? `${weight} กก.` : "ยังไม่ได้ระบุ",
+        ส่วนสูง: height ? `${height} ซม.` : "ยังไม่ได้ระบุ",
         ประวัติแพ้ยา: allergies || "ไม่มี",
         วันที่บันทึก: new Date().toLocaleString("th-TH"),
       },
