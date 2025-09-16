@@ -16,76 +16,6 @@ function clearError(inputId) {
   if (errorDiv) errorDiv.innerHTML = "";
 }
 
-// ตรวจสอบ Vital Signs
-function checkTemperature() {
-  const temp = document.getElementById("temperature");
-  const value = parseFloat(temp.value);
-  if (temp.value === "") {
-    clearError("temperature");
-    return true;
-  }
-  if (value < 35 || value > 41) {
-    showError("temperature", "กรุณากรอกอุณหภูมิให้ถูกต้อง (35°C - 41°C)");
-    return false;
-  }
-  clearError("temperature");
-  return true;
-}
-
-function checkBloodPressure() {
-  const bp = document.getElementById("blood_pressure");
-  const value = bp.value.trim();
-
-  if (value === "") {
-    clearError("blood_pressure");
-    return true;
-  }
-
-  const pattern = /^\d{1,3}\/\d{1,3}$/;
-  if (!pattern.test(value)) {
-    showError("blood_pressure", "กรุณากรอกรูปแบบ 120/80");
-    return false;
-  }
-
-  const [systolic, diastolic] = value.split("/").map(Number);
-
-  if (systolic < 50 || systolic > 250) {
-    showError("blood_pressure", "ความดันตัวบนต้องอยู่ระหว่าง 50-250");
-    return false;
-  }
-
-  if (diastolic < 0 || diastolic > 150) {
-    showError("blood_pressure", "ความดันตัวล่างต้องอยู่ระหว่าง 0-150");
-    return false;
-  }
-
-  if (systolic <= diastolic) {
-    showError("blood_pressure", "ความดันตัวบนต้องมากกว่าตัวล่าง");
-    return false;
-  }
-
-  clearError("blood_pressure");
-  return true;
-}
-
-function checkPulse() {
-  const pulse = document.getElementById("pulse");
-  const value = parseInt(pulse.value);
-  if (pulse.value === "") {
-    clearError("pulse");
-    return true;
-  }
-  if (value < 40 || value > 130) {
-    showError(
-      "pulse",
-      "กรุณากรอกอัตราการเต้นของหัวใจให้ถูกต้อง (40 - 130 ครั้ง/นาที)"
-    );
-    return false;
-  }
-  clearError("pulse");
-  return true;
-}
-
 // ตรวจสอบเบอร์โทร
 function checkPhone() {
   const phone = document.getElementById("phone");
@@ -111,7 +41,7 @@ function checkPhone() {
   return true;
 }
 
-// ฟังก์ชันตรวจสอบการเลือกเพศ
+// ตรวจสอบเลือกเพศ
 function checkGender() {
   const genderRadios = document.querySelectorAll('input[name="gender"]');
   const isChecked = Array.from(genderRadios).some((radio) => radio.checked);
@@ -125,7 +55,7 @@ function checkGender() {
   return true;
 }
 
-//  ฟังก์ชันดึงค่าเพศที่เลือก
+// ดึงค่าเพศที่เลือก
 function getSelectedGender() {
   const genderRadios = document.querySelectorAll('input[name="gender"]');
   const selectedGender = Array.from(genderRadios).find(
@@ -157,7 +87,7 @@ function showAlert(message, type) {
   setTimeout(() => (alertDiv.style.display = "none"), 5000);
 }
 
-// ระบบจัดการ Allergy แบบ Multi-select ใหม่
+// ระบบจัดการ Allergy แบบ Multi-select
 let selectedAllergies = []; // เก็บรายการยาที่แพ้ทั้งหมด
 
 function getAllergyData() {
@@ -168,7 +98,7 @@ function addAllergy(allergyName) {
   const trimmedName = allergyName.trim();
   if (!trimmedName) return false;
 
-  // ตรวจสอบความซ้ำ (case insensitive)
+  // ตรวจสอบความซ้ำ
   const exists = selectedAllergies.some(
     (allergy) => allergy.toLowerCase() === trimmedName.toLowerCase()
   );
@@ -189,6 +119,7 @@ function removeAllergy(allergyName) {
   // อัพเดท checkbox ถ้าเป็นยาในรายการ
   const checkbox = document.querySelector(`input[value="${allergyName}"]`);
   if (checkbox) checkbox.checked = false;
+  updateAllergyDisplay();
 }
 
 function updateAllergyDisplay() {
@@ -325,7 +256,7 @@ function setupAllergySystem() {
 // ส่งข้อมูลไป API
 async function savePatientData(formData) {
   try {
-    console.log("ข้อมูลที่จะส่ง:", formData); // Debug
+    console.log("ข้อมูลที่จะส่ง:", formData);
 
     const response = await fetch("/api/patients", {
       method: "POST",
@@ -336,7 +267,7 @@ async function savePatientData(formData) {
     });
 
     const result = await response.json();
-    console.log("ผลลัพธ์จาก server:", result); // Debug
+    console.log("ผลลัพธ์จาก server:", result);
 
     if (result.success) {
       showAlert(
@@ -346,7 +277,7 @@ async function savePatientData(formData) {
         "success"
       );
 
-      // รีเซ็ตฟอร์ม
+      // รีฟอร์ม
       document.getElementById("patient-form").reset();
       resetAllergySection();
 
@@ -379,22 +310,15 @@ function resetAllergySection() {
   if (searchInput) searchInput.value = "";
 }
 
-// เมื่อโหลดหน้าเว็บ
+// โหลดหน้าเว็บ
 window.onload = function () {
-  // ตรวจสอบ vital signs และเบอร์โทร
-  document
-    .getElementById("temperature")
-    .addEventListener("input", checkTemperature);
-  document
-    .getElementById("blood_pressure")
-    .addEventListener("input", checkBloodPressure);
-  document.getElementById("pulse").addEventListener("input", checkPulse);
+  // ตรวจสอบเบอร์โทรและเพศ
   document.getElementById("phone").addEventListener("input", checkPhone);
   document.querySelectorAll('input[name="gender"]').forEach((radio) => {
     radio.addEventListener("change", checkGender);
   });
 
-  // ฟอร์ม submit - แก้ไขการส่งข้อมูล
+  // ฟอร์ม submit
   document
     .getElementById("patient-form")
     .addEventListener("submit", async function (e) {
@@ -403,34 +327,17 @@ window.onload = function () {
       // ตรวจสอบความถูกต้องของข้อมูล
       let allValid = true;
 
-      if (!checkTemperature()) allValid = false;
-      if (!checkBloodPressure()) allValid = false;
-      if (!checkPulse()) allValid = false;
       if (!checkPhone()) allValid = false;
       if (!checkGender()) allValid = false;
 
-      // ดึงข้อมูลจากฟอร์ม - ตรวจสอบให้แน่ใจว่าได้ค่าถูกต้อง
+      // ดึงข้อมูลจากฟอร์ม
       const employeeId = document.getElementById("employee_id").value.trim();
       const department = document.getElementById("department").value.trim();
       const firstName = document.getElementById("first_name").value.trim();
       const lastName = document.getElementById("last_name").value.trim();
       const gender = getSelectedGender();
       const phone = document.getElementById("phone").value.trim();
-      const chiefComplaint = document
-        .getElementById("chief_complaint")
-        .value.trim();
 
-      console.log("ข้อมูลที่ดึงจากฟอร์ม:", {
-        employeeId,
-        department,
-        firstName,
-        lastName,
-        gender,
-        phone,
-        chiefComplaint,
-      }); // Debug
-
-      // ตรวจสอบฟิลด์ที่จำเป็น
       if (!employeeId) {
         showAlert("กรุณากรอกรหัสพนักงาน", "error");
         allValid = false;
@@ -455,10 +362,6 @@ window.onload = function () {
         showAlert("กรุณากรอกเบอร์โทร", "error");
         allValid = false;
       }
-      if (!chiefComplaint) {
-        showAlert("กรุณากรอกอาการหลัก", "error");
-        allValid = false;
-      }
 
       // ถ้าข้อมูลถูกต้อง ส่งไป API
       if (allValid) {
@@ -469,24 +372,15 @@ window.onload = function () {
           last_name: lastName,
           gender: gender,
           phone: phone,
-          age: document.getElementById("age").value || null,
-          weight: document.getElementById("weight").value || null,
-          height: document.getElementById("height").value || null,
-          blood_pressure:
-            document.getElementById("blood_pressure").value || null,
-          pulse: document.getElementById("pulse").value || null,
-          temperature: document.getElementById("temperature").value || null,
-          chief_complaint: chiefComplaint,
           allergies: getAllergyData(),
         };
 
-        console.log("FormData ที่เตรียมส่ง:", formData); // Debug
+        console.log("FormData ที่เตรียมส่ง:", formData);
 
         // ส่งข้อมูลไป API
         await savePatientData(formData);
       }
     });
 
-  // Setup ระบบ Allergy ใหม่
   setupAllergySystem();
 };

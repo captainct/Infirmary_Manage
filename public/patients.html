@@ -135,90 +135,8 @@
               <div class="error-message" id="phone-error"></div>
             </div>
 
-            <!-- ข้อมูลพื้นฐาน -->
-            <div class="form-group">
-              <label for="age">อายุ (ปี)</label>
-              <input type="number" id="age" name="age" min="1" max="120" />
-            </div>
-
-            <div class="form-group">
-              <label for="weight">น้ำหนัก (kg)</label>
-              <input
-                type="number"
-                id="weight"
-                name="weight"
-                step="0.1"
-                min="1"
-                max="300"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="height">ส่วนสูง (cm)</label>
-              <input
-                type="number"
-                id="height"
-                name="height"
-                step="0.1"
-                min="50"
-                max="250"
-              />
-            </div>
-
-            <!-- ความดันโลหิต -->
-            <div class="form-group">
-              <label for="blood_pressure">ความดันโลหิต</label>
-              <input
-                type="text"
-                id="blood_pressure"
-                name="blood_pressure"
-                placeholder="เช่น 120/80"
-                maxlength="10"
-              />
-              <div class="error-message" id="blood_pressure-error"></div>
-            </div>
-
-            <div class="form-group">
-              <label for="pulse">ชีพจร (ครั้ง/นาที)</label>
-              <input
-                type="number"
-                id="pulse"
-                name="pulse"
-                min="40"
-                max="130"
-                placeholder="เช่น 72"
-              />
-              <div class="error-message" id="pulse-error"></div>
-            </div>
-
-            <div class="form-group">
-              <label for="temperature">อุณหภูมิ (°C)</label>
-              <input
-                type="number"
-                id="temperature"
-                name="temperature"
-                step="0.1"
-                min="35"
-                max="41"
-                placeholder="เช่น 36.5"
-              />
-              <div class="error-message" id="temperature-error"></div>
-            </div>
-
-            <!-- อาการหลัก -->
-            <div class="form-group full-width">
-              <label for="chief_complaint"
-                >อาการหลัก<span class="required">*</span></label
-              >
-              <textarea
-                id="chief_complaint"
-                name="chief_complaint"
-                required
-              ></textarea>
-            </div>
-
-            <!-- ประวัติแพ้ยา - ปรับปรุงให้ง่าย -->
-            <div class="allergy-section">
+            <!-- ประวัติแพ้ยา -->
+            <div class="allergy-section full-width">
               <h3>ประวัติการแพ้ยา</h3>
               <div class="allergy-multiselect">
                 <div class="allergy-input-container">
@@ -226,17 +144,31 @@
                   <input
                     type="text"
                     id="allergySearchInput"
-                    placeholder="Add or search"
+                    placeholder="พิมพ์หรือค้นหายาที่แพ้"
                     class="allergy-search-input"
                   />
-                  <button type="button" id="addAllergyFromSearch" class="add-btn">+</button>
+                  <button
+                    type="button"
+                    id="addAllergyFromSearch"
+                    class="add-btn"
+                  >
+                    +
+                  </button>
                 </div>
-                
+
                 <!-- รายการยา -->
-                <div class="allergy-dropdown" id="allergyDropdown" style="display: none;">
+                <div
+                  class="allergy-dropdown"
+                  id="allergyDropdown"
+                  style="display: none"
+                >
                   <div class="medicine-options">
                     <div class="medicine-option">
-                      <input type="checkbox" value="Penicillin" id="med-penicillin" />
+                      <input
+                        type="checkbox"
+                        value="Penicillin"
+                        id="med-penicillin"
+                      />
                       <label for="med-penicillin">Penicillin</label>
                     </div>
                     <div class="medicine-option">
@@ -248,23 +180,43 @@
                       <label for="med-sulfa">Sulfa</label>
                     </div>
                     <div class="medicine-option">
-                      <input type="checkbox" value="Ibuprofen" id="med-ibuprofen" />
+                      <input
+                        type="checkbox"
+                        value="Ibuprofen"
+                        id="med-ibuprofen"
+                      />
                       <label for="med-ibuprofen">Ibuprofen</label>
                     </div>
                     <div class="medicine-option">
-                      <input type="checkbox" value="Cephalosporin" id="med-cephalosporin" />
+                      <input
+                        type="checkbox"
+                        value="Cephalosporin"
+                        id="med-cephalosporin"
+                      />
                       <label for="med-cephalosporin">Cephalosporin</label>
                     </div>
                     <div class="medicine-option">
-                      <input type="checkbox" value="Paracetamol" id="med-paracetamol" />
+                      <input
+                        type="checkbox"
+                        value="Paracetamol"
+                        id="med-paracetamol"
+                      />
                       <label for="med-paracetamol">Paracetamol</label>
                     </div>
                     <div class="medicine-option">
-                      <input type="checkbox" value="Amoxycillin" id="med-amoxycillin" />
+                      <input
+                        type="checkbox"
+                        value="Amoxycillin"
+                        id="med-amoxycillin"
+                      />
                       <label for="med-amoxycillin">Amoxycillin</label>
                     </div>
                     <div class="medicine-option">
-                      <input type="checkbox" value="Diclofenac" id="med-diclofenac" />
+                      <input
+                        type="checkbox"
+                        value="Diclofenac"
+                        id="med-diclofenac"
+                      />
                       <label for="med-diclofenac">Diclofenac</label>
                     </div>
                     <div class="medicine-option">
@@ -276,16 +228,18 @@
                       <label for="med-deanxit">Deanxit</label>
                     </div>
                   </div>
-                  <div class="add-custom-option" id="addCustomOption" style="display: none;">
+                  <div
+                    class="add-custom-option"
+                    id="addCustomOption"
+                    style="display: none"
+                  >
                     <button type="button" class="add-custom-btn">
-                      <span>+ Add '</span><span id="customMedicineName"></span><span>'</span>
+                      <span>+ เพิ่ม '</span><span id="customMedicineName"></span
+                      ><span>'</span>
                     </button>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-
               <input type="hidden" id="allergies" name="allergies" value="" />
             </div>
           </div>

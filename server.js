@@ -43,10 +43,13 @@ app.get("/", (req, res) => {
             <li><a href="/api/test">🔧 ทดสอบระบบ</a></li>
             <li><a href="/api/patients">🏥 ข้อมูลผู้ป่วย</a></li>
             <li><a href="/api/check-table">🔍 ตรวจสอบโครงสร้างตาราง patients</a></li>
+            <li><a href="/api/examinations">📋 ประวัติการตรวจรักษา</a></li>
         </ul>
         <h3>หน้าเว็บ:</h3>
         <ul>
             <li><a href="/patients.html">👥 กรอกข้อมูลผู้ป่วย</a></li>
+            <li><a href="/examination.html">🏥 ห้องตรวจ</a></li>
+            <li><a href="/patients_list.html">📋 รายชื่อผู้ป่วยทั้งหมด</a></li>
         </ul>
     `);
 });
@@ -116,7 +119,7 @@ app.get("/api/patients", async (req, res) => {
   }
 });
 
-// API สำหรับบันทึกข้อมูลผู้ป่วยใหม่
+// API นทึกข้อมูลผู้ป่วยใหม่
 app.post("/api/patients", async (req, res) => {
   const connection = await connectDB();
 
@@ -135,16 +138,10 @@ app.post("/api/patients", async (req, res) => {
       last_name,
       gender,
       phone,
-      age,
-      weight,
-      height,
-      blood_pressure,
-      pulse,
-      temperature,
-      chief_complaint,
       allergies,
     } = req.body;
 
+    // ตรวจสอบข้อมูลที่จำเป็น
     if (!employee_id || employee_id.trim() === "") {
       return res.json({
         success: false,
@@ -187,42 +184,33 @@ app.post("/api/patients", async (req, res) => {
       });
     }
 
-    if (!chief_complaint || chief_complaint.trim() === "") {
-      return res.json({
-        success: false,
-        error: "กรุณากรอกอาการหลัก",
-      });
-    }
-
     // SQL Query
     const sql = `
       INSERT INTO patients (
-        first_name, last_name, gender, phone, employee_id, department, 
-        visit_date, age, weight, height, blood_pressure, 
-        pulse, temperature, chief_complaint, allergies, created_at
-      ) VALUES (?, ?, ?, ?, ?, ?, CURDATE(), ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+        employee_id, department, first_name, last_name, gender, phone, 
+        allergies, visit_date, created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE(), NOW())
     `;
 
     // ข้อมูลที่จะบันทึก
     const values = [
+      employee_id.trim(),
+      department.trim(),
       first_name.trim(),
       last_name.trim(),
       gender.trim(),
       phone.trim(),
-      employee_id.trim(),
-      department.trim(),
-      age ? parseInt(age) : null,
-      weight ? parseFloat(weight) : null,
-      height ? parseFloat(height) : null,
-      blood_pressure ? blood_pressure.trim() : null,
-      pulse ? parseInt(pulse) : null,
-      temperature ? parseFloat(temperature) : null,
-      chief_complaint.trim(),
       allergies || null,
     ];
 
     // บันทึกลงฐานข้อมูล
     const [result] = await connection.execute(sql, values);
+
+    //ดึงข้อมูลผู้ป่วยที่เพิ่งบันทึก
+    const [newPatient] = await connection.execute(
+      "SELECT * FROM patients WHERE id = ?",
+      [result.insertId]
+    );
 
     await connection.end();
 
@@ -230,13 +218,15 @@ app.post("/api/patients", async (req, res) => {
       success: true,
       message: "บันทึกข้อมูลผู้ป่วยเรียบร้อยแล้ว",
       patient_id: result.insertId,
+      patient_data: newPatient[0],
+      redirect_to_examination: true,
       data: {
         รหัสพนักงาน: employee_id.trim(),
         แผนก: department.trim(),
         ชื่อ: `${first_name.trim()} ${last_name.trim()}`,
         เพศ: gender === "male" ? "ชาย" : "หญิง",
         เบอร์โทร: phone.trim(),
-        อาการหลัก: chief_complaint.trim(),
+        ประวัติแพ้ยา: allergies || "ไม่มี",
         วันที่บันทึก: new Date().toLocaleString("th-TH"),
       },
     });
@@ -251,9 +241,154 @@ app.post("/api/patients", async (req, res) => {
   }
 });
 
+//API บันทึกการตรวจรักษา
+app.post("/api/examinations", async (req, res) => {
+  const connection = await connectDB();
+  if (!connection) {
+    return res.json({
+      success: false,
+      error: "ไม่สามารถเชื่อมต่อฐานข้อมูลได้",
+    });
+  }
+
+  try {
+    const {
+      patient_id,
+      service_type,
+      treatment_details,
+      patient_status,
+      observation_notes,
+      patient_signature,
+      staff_signature,
+      staff_name,
+      medicines,
+      attached_photo,
+    } = req.body;
+
+    if (!patient_id || !service_type) {
+      return res.json({ success: false, error: "กรุณาระบุข้อมูลที่จำเป็น" });
+    }
+
+    await connection.beginTransaction();
+
+    // บันทึกการตรวจรักษา
+    const visitDateTime = new Date();
+    const visit_date = visitDateTime.toISOString().split("T")[0];
+    const visit_time = visitDateTime.toTimeString().split(" ")[0];
+
+    const [examResult] = await connection.execute(
+      `
+      INSERT INTO examinations (
+        patient_id, visit_date, visit_time, service_type, treatment_details,
+        patient_status, observation_notes, patient_signature, staff_signature,
+        staff_name, attached_photo, total_cost
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)
+    `,
+      [
+        patient_id,
+        visit_date,
+        visit_time,
+        service_type,
+        treatment_details || null,
+        patient_status || "discharged",
+        observation_notes || null,
+        patient_signature || null,
+        staff_signature || null,
+        staff_name || null,
+        attached_photo || null,
+      ]
+    );
+
+    const examination_id = examResult.insertId;
+    let total_cost = 0;
+
+    // บันทึกรายการยา
+    if (medicines && medicines.length > 0) {
+      for (const med of medicines) {
+        // ใช้ข้อมูลยาที่ส่งมาจากหน้าบ้านก่อน
+        const unit_price = med.unit_price || 0;
+        const subtotal = unit_price * med.quantity;
+        total_cost += subtotal;
+
+        // บันทึกรายการยา
+        await connection.execute(
+          `
+          INSERT INTO medicine_dispensed 
+          (examination_id, medicine_id, quantity, unit_price, subtotal)
+          VALUES (?, ?, ?, ?, ?)
+        `,
+          [
+            examination_id,
+            med.medicine_id || 0,
+            med.quantity,
+            unit_price,
+            subtotal,
+          ]
+        );
+      }
+    }
+
+    // อัพเดท totalcost
+    await connection.execute(
+      "UPDATE examinations SET total_cost = ? WHERE id = ?",
+      [total_cost, examination_id]
+    );
+
+    await connection.commit();
+    await connection.end();
+
+    res.json({
+      success: true,
+      message: "บันทึกการตรวจรักษาเรียบร้อยแล้ว",
+      examination_id: examination_id,
+      total_cost: total_cost,
+    });
+  } catch (error) {
+    await connection.rollback();
+    await connection.end();
+    res.json({ success: false, error: "เกิดข้อผิดพลาด: " + error.message });
+  }
+});
+
+//API ดึงประวัติการตรวจรักษา
+app.get("/api/examinations", async (req, res) => {
+  const connection = await connectDB();
+  if (!connection) {
+    return res.json({ error: "ไม่สามารถเชื่อมต่อฐานข้อมูลได้" });
+  }
+
+  try {
+    const [examinations] = await connection.execute(`
+      SELECT 
+        e.*,
+        CONCAT(p.first_name, ' ', p.last_name) as patient_name,
+        p.employee_id, p.department
+      FROM examinations e
+      JOIN patients p ON e.patient_id = p.id
+      ORDER BY e.created_at DESC
+    `);
+
+    res.json({
+      message: "ประวัติการตรวจรักษาทั้งหมด",
+      count: examinations.length,
+      data: examinations,
+    });
+
+    await connection.end();
+  } catch (error) {
+    res.json({ error: "มีข้อผิดพลาด: " + error.message });
+    await connection.end();
+  }
+});
+
 // Route สำหรับเสิร์ฟไฟล์ HTML
 app.get("/patients", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "patients.html"));
+});
+
+// Route สำหรับหน้าตรวจ
+app.get("/examination", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "examination.html"));
 });
 
 // เริ่มต้น Server
@@ -261,5 +396,8 @@ app.listen(PORT, () => {
   console.log(`Server เริ่มทำงานแล้ว`);
   console.log(`เปิดเบราว์เซอร์ไปที่: http://localhost:${PORT}`);
   console.log(`หน้าผู้ป่วย: http://localhost:${PORT}/patients.html`);
+  console.log(`หน้าห้องตรวจ: http://localhost:${PORT}/examination.html`);
+  console.log(`รายชื่อผู้ป่วย: http://localhost:${PORT}/patients_list.html`);
   console.log(`ข้อมูลผู้ป่วย: http://localhost:${PORT}/api/patients`);
+  console.log(`ประวัติการตรวจ: http://localhost:${PORT}/api/examinations`);
 });
