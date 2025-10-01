@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>เข้าสู่ระบบ - ระบบจัดการจัดการห้องพยาบาล</title>
+    <link rel="stylesheet" href="/css/login.css" />
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="logo">
+        <div class="logo-icon">🏥</div>
+        <h1>ระบบการจัดการห้องพยาบาล</h1>
+        <p class="subtitle">Infirmary Management System</p>
+      </div>
+
+      <div id="message" class="message"></div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label for="staff_code">รหัสพนักงาน</label>
+          <input
+            type="text"
+            id="staff_code"
+            name="staff_code"
+            placeholder="กรอกรหัสพนักงาน"
+            required
+            autocomplete="off"
+            value=""
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="pin">รหัส PIN (4 หลัก)</label>
+          <input
+            type="password"
+            id="pin"
+            name="pin"
+            placeholder="••••"
+            maxlength="4"
+            class="pin-input"
+            required
+            autocomplete="off"
+            pattern="[0-9]{4}"
+            inputmode="numeric"
+          />
+        </div>
+
+        <button type="submit" class="btn-login" id="login-btn">
+          เข้าสู่ระบบ
+        </button>
+      </form>
+    </div>
+
+    <script>
+      console.log("HTML loaded");
+    </script>
+    <script src="/js/login.js"></script>
+  </body>
+</html>
