@@ -4,276 +4,220 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>จัดการผู้ป่วย</title>
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/patient.css" />
+    <link rel="stylesheet" href="css/sidebar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   </head>
-  <body>
-    <header class="header">
-      <nav class="navbar">
-        <h1>ระบบการจัดการห้องพยาบาล</h1>
-        <ul class="nav-links">
-          <li><a href="index.html">Dashboard</a></li>
-          <li><a href="employees.html">พนักงาน</a></li>
-          <li><a href="patients.html" class="active">ผู้ป่วย</a></li>
-          <li><a href="treatments.html">การรักษา</a></li>
-          <li><a href="medicines.html">ยา</a></li>
-        </ul>
-      </nav>
-    </header>
+ <body>
+  <div class="app-container">
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="menu-icon"><i class="fa-solid fa-stethoscope"></i></span>
+        <div class="logo-text">IMS</div>
+      </div>
+      <div class="sidebar-menu">
+        <a href="/dashboard.html" class="menu-item"><span class="menu-icon"><i class="fas fa-chart-line"></i></span><span>แดชบอร์ด</span></a>
+        <a href="patients.html" class="menu-item active"><span class="menu-icon"><i class="fas fa-user-plus"></i></span><span>ลงทะเบียนผู้ป่วยใหม่</span></a>
+        <a href="examination.html" class="menu-item"><span class="menu-icon"><i class="fas fa-user-md"></i></span><span>บันทึกการตรวจรักษา</span></a>
+        <a href="patients_list.html" class="menu-item"><span class="menu-icon"><i class="fas fa-clipboard-list"></i></span><span>ค้นหาประวัติผู้ป่วย</span></a>
+        <a href="medicines_list.html" class="menu-item "><span class="menu-icon"><i class="fas fa-capsules"></i></span><span>จัดการข้อมูลยา</span></a>
+      </div>
+      <div class="sidebar-footer">
+        <a href="login.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i><span>ออกจากระบบ</span></a>
+      </div>
+    </div>
 
-    <main class="container">
-      <h2>👥 กรอกข้อมูลผู้ป่วย</h2>
-
-      <!-- แสดงข้อความแจ้งเตือน -->
-      <div id="alert-message" class="alert"></div>
-
-      <div class="form-container">
-        <form id="patient-form">
-          <div class="form-grid">
-            <!-- ข้อมูลพนักงาน -->
-            <div class="form-group">
-              <label for="employee_id"
-                >รหัสพนักงาน <span class="required">*</span></label
-              >
-              <input
-                type="text"
-                id="employee_id"
-                name="employee_id"
-                required
-                maxlength="20"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="department"
-                >แผนก <span class="required">*</span></label
-              >
-              <div class="department-input-container">
-                <input
-                  type="text"
-                  id="department"
-                  name="department"
-                  required
-                  placeholder="เลือกหรือพิมพ์ชื่อแผนก"
-                  list="department-options"
-                  autocomplete="off"
-                />
-                <datalist id="department-options">
-                  <option value="บริหาร"></option>
-                  <option value="บัญชี"></option>
-                  <option value="การเงิน"></option>
-                  <option value="ฝ่ายขาย"></option>
-                  <option value="การตลาด"></option>
-                  <option value="ผลิต"></option>
-                  <option value="คลังสินค้า"></option>
-                  <option value="IT"></option>
-                  <option value="HR"></option>
-                  <option value="รักษาความปลอดภัย"></option>
-                  <option value="วิศวกรรม"></option>
-                  <option value="QA/QC"></option>
-                  <option value="บำรุงรักษา"></option>
-                  <option value="ขนส่ง"></option>
-                  <option value="ประชาสัมพันธ์"></option>
-                </datalist>
-              </div>
-            </div>
-
-            <!-- ข้อมูลส่วนตัว -->
-            <div class="form-group">
-              <label for="first_name"
-                >ชื่อ <span class="required">*</span></label
-              >
-              <input
-                type="text"
-                id="first_name"
-                name="first_name"
-                required
-                placeholder="กรุณากรอกชื่อ"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="last_name"
-                >นามสกุล <span class="required">*</span></label
-              >
-              <input
-                type="text"
-                id="last_name"
-                name="last_name"
-                required
-                placeholder="กรุณากรอกนามสกุล"
-              />
-            </div>
-
-            <div class="form-group">
-              <label>เพศ <span class="required">*</span></label>
-              <div class="radio-group" id="gender">
-                <label class="radio-label">
-                  <input type="radio" name="gender" value="male" required />
-                  <span class="radio-custom"></span>
-                  ชาย
-                </label>
-                <label class="radio-label">
-                  <input type="radio" name="gender" value="female" required />
-                  <span class="radio-custom"></span>
-                  หญิง
-                </label>
-              </div>
-              <div class="error-message" id="gender-error"></div>
-            </div>
-
-            <div class="form-group">
-              <label for="weight">น้ำหนัก (kg)</label>
-              <input
-                type="number"
-                id="weight"
-                name="weight"
-                step="0.1"
-                min="1"
-                max="300"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="height">ส่วนสูง (cm)</label>
-              <input
-                type="number"
-                id="height"
-                name="height"
-                step="0.1"
-                min="50"
-                max="250"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="phone"
-                >เบอร์โทร <span class="required">*</span></label
-              >
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                required
-                maxlength="15"
-              />
-              <div class="error-message" id="phone-error"></div>
-            </div>
-
-            <!-- ประวัติแพ้ยา -->
-            <div class="allergy-section full-width">
-              <h3>ประวัติการแพ้ยา</h3>
-              <div class="allergy-multiselect">
-                <div class="allergy-input-container">
-                  <div class="selected-tags" id="selectedTags"></div>
+      <div class="main-content">
+        <div class="container">
+          <div class="page-header">
+            <h2>กรอกข้อมูลผู้ป่วย</h2>
+          </div>
+          <div id="alert-message" class="alert"></div>
+          <div class="form-container">
+            <form id="patient-form">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="employee_id">รหัสพนักงาน <span class="required">*</span></label>
+                  <input type="text" id="employee_id" name="employee_id" required maxlength="20" />
+                </div>
+                <div class="form-group">
+                  <label for="department">แผนก <span class="required">*</span></label>
                   <input
                     type="text"
-                    id="allergySearchInput"
-                    placeholder="พิมพ์หรือค้นหายาที่แพ้"
-                    class="allergy-search-input"
+                    id="department"
+                    name="department"
+                    required
+                    placeholder="เลือกหรือพิมพ์ชื่อแผนก"
+                    list="department-options"
+                    autocomplete="off"
                   />
-                  <button
-                    type="button"
-                    id="addAllergyFromSearch"
-                    class="add-btn"
-                  >
-                    +
-                  </button>
+                  <datalist id="department-options">
+                    <option value="บริหาร"></option>
+                    <option value="บัญชี"></option>
+                    <option value="ฝ่ายขาย"></option>
+                    <option value="การตลาด"></option>
+                    <option value="ผลิต"></option>
+                    <option value="คลังสินค้า"></option>
+                    <option value="IT"></option>
+                    <option value="HR"></option>
+                    <option value="วิศวกรรม"></option>
+                    <option value="บำรุงรักษา"></option>
+                    <option value="ประชาสัมพันธ์"></option>
+                  </datalist>
                 </div>
 
-                <!-- รายการยา -->
-                <div
-                  class="allergy-dropdown"
-                  id="allergyDropdown"
-                  style="display: none"
-                >
-                  <div class="medicine-options">
-                    <div class="medicine-option">
-                      <input
-                        type="checkbox"
-                        value="Penicillin"
-                        id="med-penicillin"
-                      />
-                      <label for="med-penicillin">Penicillin</label>
+                <div class="form-group">
+                  <label for="first_name">ชื่อ <span class="required">*</span></label>
+                  <input type="text" id="first_name" name="first_name" required placeholder="กรุณากรอกชื่อ" />
+                </div>
+
+                <div class="form-group">
+                  <label for="last_name">นามสกุล <span class="required">*</span></label>
+                  <input type="text" id="last_name" name="last_name" required placeholder="กรุณากรอกนามสกุล" />
+                </div>
+
+                <div class="form-group">
+                  <label for="weight">น้ำหนัก (kg)</label>
+                  <input type="number" id="weight" name="weight" step="0.1" min="1" max="300" />
+                </div>
+
+                <div class="form-group">
+                  <label for="height">ส่วนสูง (cm)</label>
+                  <input type="number" id="height" name="height" step="0.1" min="50" max="250" />
+                </div>
+
+                <div class="form-group">
+                  <label for="phone">เบอร์โทร <span class="required">*</span></label>
+                  <input type="tel" id="phone" name="phone" required maxlength="15" />
+                  <div class="error-message" id="phone-error"></div>
+                </div>
+
+                <div class="form-group">
+                  <label>เพศ <span class="required">*</span></label>
+                  <div class="radio-group" id="gender">
+                    <label class="radio-label">
+                      <input type="radio" name="gender" value="male" required />
+                      <span class="radio-custom"></span>
+                      ชาย
+                    </label>
+                    <label class="radio-label">
+                      <input type="radio" name="gender" value="female" required />
+                      <span class="radio-custom"></span>
+                      หญิง
+                    </label>
+                  </div>
+                  <div class="error-message" id="gender-error"></div>
+                </div>
+
+                <div class="allergy-section full-width">
+                  <h3>ประวัติการแพ้ยา</h3>
+                  <div class="checkbox-grid">
+                    <div class="checkbox-item">
+                      <input type="checkbox" id="allergy-amoxycillin" name="allergies" value="Amoxycillin" />
+                      <label for="allergy-amoxycillin">Amoxycillin</label>
                     </div>
-                    <div class="medicine-option">
-                      <input type="checkbox" value="Aspirin" id="med-aspirin" />
-                      <label for="med-aspirin">Aspirin</label>
+                    <div class="checkbox-item">
+                      <input type="checkbox" id="allergy-aspirin" name="allergies" value="Aspirin" />
+                      <label for="allergy-aspirin">Aspirin</label>
                     </div>
-                    <div class="medicine-option">
-                      <input type="checkbox" value="Sulfa" id="med-sulfa" />
-                      <label for="med-sulfa">Sulfa</label>
+                    <div class="checkbox-item">
+                      <input type="checkbox" id="allergy-cephalosporin" name="allergies" value="Cephalosporin" />
+                      <label for="allergy-cephalosporin">Cephalosporin</label>
                     </div>
-                    <div class="medicine-option">
-                      <input
-                        type="checkbox"
-                        value="Ibuprofen"
-                        id="med-ibuprofen"
-                      />
-                      <label for="med-ibuprofen">Ibuprofen</label>
+                    <div class="checkbox-item">
+                      <input type="checkbox" id="allergy-deanxit" name="allergies" value="Deanxit" />
+                      <label for="allergy-deanxit">Deanxit</label>
                     </div>
-                    <div class="medicine-option">
-                      <input
-                        type="checkbox"
-                        value="Cephalosporin"
-                        id="med-cephalosporin"
-                      />
-                      <label for="med-cephalosporin">Cephalosporin</label>
+                    <div class="checkbox-item">
+                      <input type="checkbox" id="allergy-diclofenac" name="allergies" value="Diclofenac" />
+                      <label for="allergy-diclofenac">Diclofenac</label>
                     </div>
-                    <div class="medicine-option">
-                      <input
-                        type="checkbox"
-                        value="Paracetamol"
-                        id="med-paracetamol"
-                      />
-                      <label for="med-paracetamol">Paracetamol</label>
+                    <div class="checkbox-item">
+                      <input type="checkbox" id="allergy-ibuprofen" name="allergies" value="Ibuprofen" />
+                      <label for="allergy-ibuprofen">Ibuprofen</label>
                     </div>
-                    <div class="medicine-option">
-                      <input
-                        type="checkbox"
-                        value="Amoxycillin"
-                        id="med-amoxycillin"
-                      />
-                      <label for="med-amoxycillin">Amoxycillin</label>
+                    <div class="checkbox-item">
+                      <input type="checkbox" id="allergy-paracetamol" name="allergies" value="Paracetamol" />
+                      <label for="allergy-paracetamol">Paracetamol</label>
                     </div>
-                    <div class="medicine-option">
-                      <input
-                        type="checkbox"
-                        value="Diclofenac"
-                        id="med-diclofenac"
-                      />
-                      <label for="med-diclofenac">Diclofenac</label>
+                    <div class="checkbox-item">
+                      <input type="checkbox" id="allergy-penicillin" name="allergies" value="Penicillin" />
+                      <label for="allergy-penicillin">Penicillin</label>
                     </div>
-                    <div class="medicine-option">
-                      <input type="checkbox" value="PenV" id="med-penv" />
-                      <label for="med-penv">PenV</label>
+                    <div class="checkbox-item">
+                      <input type="checkbox" id="allergy-penv" name="allergies" value="PenV" />
+                      <label for="allergy-penv">PenV</label>
                     </div>
-                    <div class="medicine-option">
-                      <input type="checkbox" value="Deanxit" id="med-deanxit" />
-                      <label for="med-deanxit">Deanxit</label>
+                    <div class="checkbox-item">
+                      <input type="checkbox" id="allergy-sulfa" name="allergies" value="Sulfa" />
+                      <label for="allergy-sulfa">Sulfa</label>
+                    </div>
+                    <div class="checkbox-item">
+                      <label for="allergy-other">อื่นๆ</label>
+                      <input type="text" id="allergy-other" name="allergy-other" placeholder="ระบุยาที่แพ้อื่นๆ" />
                     </div>
                   </div>
-                  <div
-                    class="add-custom-option"
-                    id="addCustomOption"
-                    style="display: none"
-                  >
-                    <button type="button" class="add-custom-btn">
-                      <span>+ เพิ่ม '</span><span id="customMedicineName"></span
-                      ><span>'</span>
-                    </button>
+                </div>
+
+                <div class="medical-conditions-section full-width">
+                  <h3>โรคประจำตัว</h3>
+                  <div class="checkbox-grid">
+                    <div class="checkbox-item">
+                      <input type="checkbox" id="condition-diabetes" name="conditions" value="เบาหวาน" />
+                      <label for="condition-diabetes">เบาหวาน</label>
+                    </div>
+                    <div class="checkbox-item">
+                      <input type="checkbox" id="condition-gout" name="conditions" value="เก๊าท์" />
+                      <label for="condition-gout">เก๊าท์</label>
+                    </div>
+                    <div class="checkbox-item">
+                      <input type="checkbox" id="condition-gastritis" name="conditions" value="กระเพาะอาหาร" />
+                      <label for="condition-gastritis">กระเพาะอาหาร</label>
+                    </div>
+                    <div class="checkbox-item">
+                      <input type="checkbox" id="condition-reflux" name="conditions" value="กรดไหลย้อน" />
+                      <label for="condition-reflux">กรดไหลย้อน</label>
+                    </div>
+                    <div class="checkbox-item">
+                      <input type="checkbox" id="condition-hypertension" name="conditions" value="ความดันโลหิตสูง" />
+                      <label for="condition-hypertension">ความดันโลหิตสูง</label>
+                    </div>
+                    <div class="checkbox-item">
+                      <input type="checkbox" id="condition-cholesterol" name="conditions" value="ไขมันในเลือดสูง" />
+                      <label for="condition-cholesterol">ไขมันในเลือดสูง</label>
+                    </div>
+                    <div class="checkbox-item">
+                      <input type="checkbox" id="condition-fatty-liver" name="conditions" value="ตับอักเสบ" />
+                      <label for="condition-fatty-liver">ตับอักเสบ</label>
+                    </div>
+                    <div class="checkbox-item">
+                      <input type="checkbox" id="condition-kidney" name="conditions" value="โรคไต" />
+                      <label for="condition-kidney">โรคไต</label>
+                    </div>
+                    <div class="checkbox-item">
+                      <input type="checkbox" id="condition-heart" name="conditions" value="โรคหัวใจ" />
+                      <label for="condition-heart">โรคหัวใจ</label>
+                    </div>
+                    <div class="checkbox-item">
+                      <input type="checkbox" id="condition-asthma" name="conditions" value="หอบหืด" />
+                      <label for="condition-asthma">หอบหืด</label>
+                    </div>
+                    <div class="checkbox-item">
+                      <label for="condition-other">อื่นๆ</label>
+                      <input type="text" id="condition-other" name="condition-other" placeholder="ระบุโรคประจำตัวอื่นๆ" />
+                    </div>
                   </div>
                 </div>
               </div>
-              <input type="hidden" id="allergies" name="allergies" value="" />
-            </div>
-          </div>
 
-          <div class="btn-group">
-            <button type="submit" class="btn">💾 บันทึกข้อมูล</button>
+              <div class="btn-group">
+                <button type="submit" class="btn">บันทึกข้อมูล</button>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
-    </main>
+    </div>
 
     <script src="js/patients.js"></script>
   </body>

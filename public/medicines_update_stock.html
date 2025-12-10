@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>จัดการสต็อกยา</title>
+  <link rel="stylesheet" href="css/sidebar.css" />
+  <link rel="stylesheet" href="css/medicines_update_stock.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+  <div class="app-container">
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="menu-icon"><i class="fa-solid fa-stethoscope"></i></span>
+        <div class="logo-text">IMS</div>
+      </div>
+      <div class="sidebar-menu">
+        <a href="/dashboard.html" class="menu-item"><span class="menu-icon"><i class="fas fa-chart-line"></i></span><span>แดชบอร์ด</span></a>
+        <a href="patients.html" class="menu-item"><span class="menu-icon"><i class="fas fa-user-plus"></i></span><span>ลงทะเบียนผู้ป่วยใหม่</span></a>
+        <a href="examination.html" class="menu-item"><span class="menu-icon"><i class="fas fa-user-md"></i></span><span>บันทึกการตรวจรักษา</span></a>
+        <a href="patients_list.html" class="menu-item"><span class="menu-icon"><i class="fas fa-clipboard-list"></i></span><span>ค้นหาประวัติผู้ป่วย</span></a>
+        <a href="medicines_list.html" class="menu-item active"><span class="menu-icon"><i class="fas fa-capsules"></i></span><span>จัดการข้อมูลยา</span></a>
+      </div>
+      <div class="sidebar-footer">
+        <a href="login.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i><span>ออกจากระบบ</span></a>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="container">
+        <div class="back-button">
+          <a href="medicines_list.html" class="btn-back"><i class="fas fa-arrow-left"></i> กลับไปรายการยา</a>
+        </div>
+
+        <h1>จัดการสต็อกยา</h1>
+
+        <div class="form-card">
+          <div id="medicineInfo" class="medicine-info-box">
+            <h3>ข้อมูลยา</h3>
+            <div class="info-grid">
+              <div class="info-item"><label>รหัส:</label><span id="info-code">-</span></div>
+              <div class="info-item"><label>ชื่อ:</label><span id="info-name">-</span></div>
+              <div class="info-item"><label>หน่วย:</label><span id="info-unit">-</span></div>
+              <div class="info-item"><label>คงเหลือรวม:</label><span id="info-current" class="highlight">-</span></div>
+            </div>
+          </div>
+          <div id="lotsSection">
+            <h3>รายการ Lot ทั้งหมด</h3>
+            <div id="lotsList"></div>
+          </div>
+          <form id="updateStockForm">
+            <div class="form-section">
+              <h3>➕ เพิ่ม Lot ใหม่</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="lotNumber">Lot Number <span class="required">*</span></label>
+                  <input type="text" id="lotNumber" required placeholder="เช่น Lot1,Lot2" />
+                </div>
+                <div class="form-group">
+                  <label for="addQuantity">จำนวน <span class="required">*</span></label>
+                  <input type="number" id="addQuantity" required min="1" placeholder="0" />
+                </div>
+                <div class="form-group">
+                  <label for="expiryDate">วันหมดอายุ <span class="required">*</span></label>
+                  <input type="date" id="expiryDate" required />
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">เพิ่ม Lot</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/medicines_update_stock.js"></script>
+</body>
+</html>
