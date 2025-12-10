@@ -1,0 +1,232 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  color: #2c3e50;
+  margin-bottom: 25px;
+  font-size: 28px;
+}
+
+/* ส่วนบนสุด - ค้นหา + ปุ่มเพิ่ม */
+.top-actions {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.btn-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #5a67d8;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.btn-add:hover {
+  background: #4c51bf;
+}
+
+/* ปุ่มกรอง */
+.filter-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  background: #ecf0f1;
+  color: #2c3e50;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.filter-btn:hover {
+  background: #bdc3c7;
+}
+
+.filter-btn.active {
+  background: #007bff;
+  color: white;
+}
+
+/* ตาราง */
+.table-container {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+#medicinesTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#medicinesTable thead {
+  background: #007bff;
+  color: white;
+}
+
+#medicinesTable th {
+  padding: 14px 12px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+#medicinesTable tbody tr {
+  border-bottom: 1px solid #ecf0f1;
+}
+
+#medicinesTable tbody tr:hover {
+  background: #f8f9fa;
+}
+
+#medicinesTable td {
+  padding: 12px;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+/* ชื่อยาคลิกได้ */
+.medicine-name {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.medicine-name:hover {
+  color: #5568d3;
+}
+
+/* สถานะ */
+.status-normal {
+  color: #27ae60;
+  font-weight: 500;
+}
+
+.status-low {
+  color: #f39c12;
+  font-weight: 500;
+}
+
+.status-critical {
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+.status-expired {
+  color: #c0392b;
+  font-weight: 600;
+}
+
+/* ปุ่มจัดการสต็อก */
+.btn-manage-stock {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #48bb78;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.btn-manage-stock:hover {
+  background: #38a169;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background: white;
+  margin: 5% auto;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+}
+
+.close {
+  color: #95a5a6;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #2c3e50;
+}
+
+.modal h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.detail-row {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 15px;
+  padding: 10px 0;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-row label {
+  font-weight: 600;
+  color: #7f8c8d;
+}
+
+.detail-row span {
+  color: #2c3e50;
+}
