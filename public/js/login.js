@@ -34,9 +34,9 @@ if (form) {
     }
 
     loginBtn.disabled = true;
-    loginBtn.textContent = "กำลังเข้าสู่ระบบ...";
 
     try {
+      // ส่งข้อมูลไป Backend
       const response = await fetch("/api/login", {
         method: "POST",
         headers: {
