@@ -1,16 +1,16 @@
-// นำเข้าตัวช่วยเชื่อมต่อฐานข้อมูล MySQL
+// เชื่อมต่อฐานข้อมูล MySQL
 const mysql = require('mysql2/promise');
 
-// ตั้งค่าการเชื่อมต่อฐานข้อมูล (เปลี่ยนได้ตามของคุณ)
+// ตั้งค่าการเชื่อมต่อฐานข้อมูล
 const dbConfig = {
-    host: 'localhost',        // ที่อยู่เซิร์ฟเวอร์ (localhost = คอมเราเอง)
+    host: 'localhost',        // ที่อยู่เซิร์ฟเวอร์ 
     user: 'root',            // ชื่อผู้ใช้ MySQL
-    password: '',            // รหัสผ่าน MySQL (ใส่ของคุณถ้ามี)
+    password: '',           
     database: 'workplace_infirmary_center',  // ชื่อฐานข้อมูลที่เราสร้าง
     charset: 'utf8mb4'       // รองรับภาษาไทย
 };
 
-// สร้างตัวเชื่อมต่อ (pool = สระว่ายน้ำการเชื่อมต่อ)
+// สร้างตัวเชื่อมต่อ 
 const pool = mysql.createPool(dbConfig);
 
 // ฟังก์ชันทดสอบว่าเชื่อมต่อได้หรือไม่
@@ -29,7 +29,7 @@ async function testConnection() {
     }
 }
 
-// ฟังก์ชันดึงสถิติง่ายๆ
+// ฟังก์ชันดึงสถิติ
 async function getSimpleStats() {
     try {
         // นับจำนวนพนักงาน
