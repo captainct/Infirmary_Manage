@@ -1,3 +1,14 @@
+**ชื่อโครงงาน (ไทย):** ระบบการจัดการห้องพยาบาล
+
+**Project Title (Eng):** Infirmary Management System
+
+**ผู้จัดทำโครงงาน:** 
+1. ปกป้อง ประทุมเพ็ชร  6309650338  pokpong.prat@dome.tu.ac.th
+   
+## เทคโนโลยีที่ใช้
+
+---
+
 # ระบบการจัดการห้องพยาบาล
 **Infirmary Management System**
 
@@ -40,6 +51,7 @@ npm install
 ```bash
 npm start
 ```
+
 เปิดเบราว์เซอร์: **http://localhost:3000**
 
 ### Login ทดสอบ
@@ -54,7 +66,7 @@ IMS/
 ├── config/          # การตั้งค่า Database
 ├── routes/          # API Endpoints
 ├── public/          # Frontend (HTML, CSS, JS)
-├── Screenshots/     # ภาพหน้าจอระบบ
+├── screenshots/     # ภาพหน้าจอระบบ
 ├── workplace_infirmary_center.sql  # Database
 ├── server.js
 └── package.json
@@ -63,16 +75,24 @@ IMS/
 ---
 
 ## Database (8 ตาราง)
+
 - **staff** - พนักงาน
 - **patients** - ผู้ป่วย
 - **examinations** - การตรวจรักษา
-- **examination_photos** - รูปภาพประกอบการตรวจ
+- **examination_photos** - รูปภาพ
 - **medicines** - ข้อมูลยา
-- **medicine_lots** - LOT ยา (สต็อก)
+- **medicine_lots** - LOT ยา
 - **medicine_dispensed** - รายการจ่ายยา
 - **staff_sessions** - ประวัติ Login
 
 ---
+
+## การใช้งาน
+1. **Login** → กรอกรหัสพนักงาน + PIN
+2. **ลงทะเบียนผู้ป่วย** → กรอกข้อมูล + เลือกประวัติแพ้ยาและโรคประจำตัว
+3. **บันทึกการตรวจ** → ค้นหาผู้ป่วย → วินิจฉัย → จ่ายยา + ลายเซ็น
+4. **จัดการยา** → เพิ่มยาใหม่ + จัดการสต็อก LOT
+5. **Dashboard** → ดูสถิติและกราฟ
 
 ## การใช้งานระบบ
 
@@ -86,34 +106,33 @@ IMS/
 ---
 
 ## Screenshots
-
 <p align="center">
-  <img src="Screenshots/01-login.png" width="45%" />
-  <img src="Screenshots/02-dashboard.png" width="45%" />
+  <img src="screenshots/01-login.png" width="45%" />
+  <img src="screenshots/02-dashboard.png" width="45%" />
 </p>
 
 <p align="center">
-  <img src="Screenshots/03-patient-registration.png" width="45%" />
-  <img src="Screenshots/04-examination-step1.png" width="45%" />
+  <img src="screenshots/03-patient-registration.png" width="45%" />
+  <img src="screenshots/04-examination-step1.png" width="45%" />
 </p>
 
 <p align="center">
-  <img src="Screenshots/05-examination-step2.png" width="45%" />
-  <img src="Screenshots/06-examination-step3.png" width="45%" />
+  <img src="screenshots/05-examination-step2.png" width="45%" />
+  <img src="screenshots/06-examination-step3.png" width="45%" />
 </p>
 
 <p align="center">
-  <img src="Screenshots/07-patient-list.png" width="45%" />
-  <img src="Screenshots/08-examination-history.png" width="45%" />
+  <img src="screenshots/07-patient-list.png" width="45%" />
+  <img src="screenshots/08-examination-history.png" width="45%" />
 </p>
 
 <p align="center">
-  <img src="Screenshots/09-medicine-list.png" width="45%" />
-  <img src="Screenshots/10-medicine-add.png" width="45%" />
+  <img src="screenshots/09-medicine-list.png" width="45%" />
+  <img src="screenshots/10-medicine-add.png" width="45%" />
 </p>
 
 <p align="center">
-  <img src="Screenshots/11-medicine-update-stock.png" width="45%" />
+  <img src="screenshots/11-medicine-update-stock.png" width="45%" />
 </p>
 
 ---
