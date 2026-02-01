@@ -104,7 +104,7 @@ IMS/
 
 <p align="center">
   <img src="screenshots/07-patient-list.png" width="45%" />
-  <img src="screenshots/08-examination-history.png" width="45%" />
+  <img src="screenshots/08-patient-history.png" width="45%" />
 </p>
 
 <p align="center">
