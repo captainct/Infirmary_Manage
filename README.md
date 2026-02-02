@@ -21,8 +21,8 @@
 ### 2. Clone โปรเจค
 ```bash
 cd ~/Desktop
-git clone https://github.com/ComSciThammasatU/2568-1-cs403-final-submission-67-2_03_tpb-s1.git
-cd 2568-1-cs403-final-submission-67-2_03_tpb-s1/IMS
+git clone https://github.com/captainct/Infirmary_Manage.git
+cd PJ/IMS
 ```
 
 ### 3. ติดตั้ง Dependencies
@@ -54,7 +54,7 @@ IMS/
 ├── config/          # การตั้งค่า Database
 ├── routes/          # API Endpoints
 ├── public/          # Frontend (HTML, CSS, JS)
-├── Screenshots/     # ภาพหน้าจอระบบ
+├── screenshots/     # ภาพหน้าจอระบบ
 ├── workplace_infirmary_center.sql  # Database
 ├── server.js
 └── package.json
